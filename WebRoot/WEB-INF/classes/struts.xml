@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
+	<constant name="struts.devMode" value="true"></constant>
+
+	<package name="default" namespace="/" extends="struts-default">
+	
+		<interceptors>
+			<interceptor name="auth" class="com.zy.interceptor.AuthInterceptor"></interceptor>
+			<!-- 自定义拦截器栈-->
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="auth"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+	
+		<action name="auth">
+			<result>/WEB-INF/page/manager.jsp</result>
+			<result name="login">/login.jsp</result>
+			<interceptor-ref name="myStack"></interceptor-ref>
+		</action>
+		
+		<action name="login" class="com.zy.action.LoginAction" method="login">
+			<result>/WEB-INF/page/manager.jsp</result>
+			<result name="error">/login.jsp</result>
+		</action>
+	</package>
+</struts>    
